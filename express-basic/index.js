@@ -2,6 +2,7 @@ const Joi = require('joi');
 const express = require('express');
 const app = express();
 
+//
 app.use(express.json());
 
 const movies = [
@@ -53,7 +54,7 @@ app.put('/api/movies/:id', (req, res) => {
   
   const { error } = validateMovie(req.body)
   // const error = validateMovie(req.body).error;
-
+  //conlose.log(req.body);
   if (error) return res.status(400).send(error.message);
 
   movie.title = req.body.title;
