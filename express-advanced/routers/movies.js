@@ -1,9 +1,6 @@
-const Joi = require('joi');
 const express = require('express');
-const app = express();
-
-//
-app.use(express.json());
+const router = express.Router();
+const Joi = require('joi');
 
 const movies = [
   { id: 1, title: 'Bohemian Rhapsody' },
@@ -11,39 +8,24 @@ const movies = [
   { id: 3, title: 'Edge of Tommorow' },
 ];
 
-app.get('/', (req, res) => {
-  res.send('Happy Hacking');
-});
-
-app.get('/:name', (req, res) => {
-  res.send(`Hi, ${req.params.name}`);
-});
-
-
 /* GET /api/movies */
-app.get('/api/movies', (req, res) => {
+router.get('/', (req, res) => {
   res.send(movies);
 });
 
 /* GET /api/movies/1 */
-app.get('/api/movies/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const movie = getMovie(movies, parseInt(req.params.id));
   if (!movie) res.status(404).send(`Movie with given id(${req.params.id}) is not found.`);
   res.send(movie);
 });
 
 /* POST /api/movies */
-app.post('/api/movies', (req, res) => {
-  const { error } = validateMovie(req.body); // 비구조화
-  //const error = validateMovie(req.body).error;
+router.post('/', (req, res) => {
+  const { error } = validateMovie(req.body)
 
   if (error) return res.status(400).send(error.message);
   
-// const { name, email, age } = req.body;
-// const name = req.body.name;
-// const email = req.body.email;
-// const age = req.body.age;
-
   const movie = {
     id: movies.length + 1,
     title: req.body.title
@@ -54,13 +36,12 @@ app.post('/api/movies', (req, res) => {
 });
 
 /* PUT /api/movies/1 */
-app.put('/api/movies/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   const movie = getMovie(movies, parseInt(req.params.id));
   if (!movie) return res.status(404).send(`The movie with the given ID(${req.params.id}) was not found`);
   
   const { error } = validateMovie(req.body)
-  // const error = validateMovie(req.body).error;
-  //conlose.log(req.body);
+
   if (error) return res.status(400).send(error.message);
 
   movie.title = req.body.title;
@@ -68,7 +49,7 @@ app.put('/api/movies/:id', (req, res) => {
 });
 
 /* DELETE /api/movies/1 */
-app.delete('/api/movies/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const movie = getMovie(movies, parseInt(req.params.id));
   if (!movie) return res.status(404).send(`The movie with the given ID(${req.params.id}) was not found`);
 
@@ -89,5 +70,4 @@ function getMovie(movies, id){
   return movies.find(movie => movie.id === id)
 }
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}`));
+module.exports = router;
