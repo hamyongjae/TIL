@@ -1,32 +1,33 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/relation', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost/relation2', { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB"))
   .catch(error => console.error(error.message));
 
-  const authorSchema = new mongoose.Schema({
-      name : String,
-      github : String
-  });
+const authorSchema = new mongoose.Schema({
+  name: String,
+  github: String
+});
 
-  const courseSchema = new mongoose.Schema({
-      name :String,
-      author: [authorSchema]
-  })
-  const Author = mongoose.model('Author',authorSchema);
-  const Course = mongoose.model('Course',courseSchema);
+const courseSchema = new mongoose.Schema({
+  name: String,
+  author: [ authorSchema ]
+});
 
-  async function createCourse(name,author)
-  {
-      const course = new course({ name, author});
-      const result = await course.save();
-      console.log(result);
-  }
+const Author = mongoose.model('Author', authorSchema);
+const Course = mongoose.model('Course', courseSchema);
 
-  async function listCourses(){
-      const courses =  await Course.find();
-      console.log(courses);
-  }
+async function createCourse(name, author) {
+  const course = new Course({ name, author });
+  console.log(course)
+  const result = await course.save();
+  console.log(result);
+}
 
-  //createCourse('HyperLedger', new Author({name: 'john'}));
-  listCourses()
+async function listCourses() {
+  const courses = await Course.find();
+  console.log(courses);
+}
+
+createCourse('HyperLedger', new Author({ name: 'John', github: 'john@hphk.kr'}));
+// listCourses()
