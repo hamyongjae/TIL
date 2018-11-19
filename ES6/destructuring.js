@@ -25,7 +25,7 @@ var saveFile = {
 }
 
 function fileSummary(file){
-    return `$(file.name).$(file.extension) 의 크기는 ${file.size} 입니다.`
+    return `${file.name}.${file.extension} 의 크기는 ${file.size} 입니다.`
 }
 
 function fileSummary({ name, extension, size}){
