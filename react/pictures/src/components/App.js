@@ -1,14 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import unsplash from '../api/unsplash';
+import SearchBar from "./SearchBar";
+import ImageList from "./ImageList";
 
-export default class App extends Component {
-    render() {
-        return (
-            <div className="ui segment container">
-                <form className="ui form">
-                    <label htmlFor="keyword">Search</label>
-                    <input id="keyword" type="text"></input>
-                </form>
-            </div>
-        )
-    }
+class App extends Component {
+  state = {
+    images: []
+  }
+  onSearchSubmit = async keyword => {
+    const response = await unsplash.get("search/photos", {
+      params: { query: keyword }
+    });
+
+    this.setState({ images: response.data.results });
+  };
+
+  render() {
+    return (
+      <div className="ui container">
+        <SearchBar onUserSubmit={this.onSearchSubmit} />
+        <ImageList images={this.state.images} />
+      </div>
+    );
+  }
 }
+
+export default App;
