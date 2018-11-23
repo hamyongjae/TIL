@@ -29,7 +29,7 @@ const createClaim = (name, amountToGet) => {
     type: "CREATE_CLAIM",
     payload: {
       name: name,
-      amountToGet: amountToGet
+      amountOfMoneyToCollect: amountToGet
     }
   };
 };
