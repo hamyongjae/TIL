@@ -47,6 +47,8 @@ app.post('/api/users', (req, res) => {
 });
 
 app.put('/api/users/:id', (req, res) => {
+
+  // params를 int형식으로 바꿔줘야함
   const user = getUser(users, parseInt(req.params.id));
   if(!user) return res.status(404).send(`No User with id: ${req.params.id}`);
 
@@ -76,7 +78,10 @@ app.delete('/api/users/:id', (req, res) => {
 });
 
 function getUser(users, id) {
+  // find는 값을 넣지 않고, 콜백함수르 넣는다.
+  // 함수를 넣어서 검색조건을 지정할 수 있음
   return users.find(user => user.id === id);
+  // 콜백함수는 배열의 현재 요소, 현재 요소의 인덱스, 배열 자체를 매개변수로 받음.
 }
 
 function validateUser(user) {
