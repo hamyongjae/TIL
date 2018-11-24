@@ -1,20 +1,18 @@
-const Joi = require('joi');
+const Joi = require('joi'); //유효성 검사를 해줌
 
 const express = require('express');
 const app = express();
 
-app.use( express.json() );
+app.use( express.json() ); //middleware
 
 const users = [
   { id: 1, name: 'john', email: 'john@hphk.kr', age: 33 },
 ];
 
 app.get('/', 
-  
   (req, res) => {
    res.send('HappyHacking');
   }
-
 );
 
 app.get('/api/users', (req, res) => {
@@ -71,6 +69,7 @@ app.delete('/api/users/:id', (req, res) => {
   if(!user) return res.status(404).send(`No User with id: ${req.params.id}`);
 
   const index = users.indexOf(user);
+  
   users.splice(index, 1);
   
   res.send(user);
