@@ -1,5 +1,5 @@
-const home = require('./routes/home');
-const movies = require('./routes/movies');
+const home = require('./routers/home');
+const movies = require('./routers/movies');
 const debug = require('debug')('app:startup');
 // const config = require('config');
 const morgan = require('morgan');
